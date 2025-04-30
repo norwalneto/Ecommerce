@@ -1,0 +1,17 @@
+{
+    "name": "Spring Boot Development Environment",
+    "dockerFile": "Dockerfile",
+    "appPort": [
+        8080
+    ],
+    "settings": {
+        "java.home": "/usr/lib/jvm/java-17-openjdk-amd64"
+    },
+    "extensions": [
+        "vscjava.vscode-spring-boot",
+        "vscjava.vscode-java-pack",
+        "redhat.java",
+        "pivotal.vscode-spring-initializr"
+    ],
+    "postCreateCommand": "mvn clean install"
+}
