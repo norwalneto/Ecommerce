@@ -8,7 +8,7 @@ import com.ecommerce.domain.model.User;
 
 public interface UserService {
     User listarPorId (UUID id);
-    List<User> listarTodos (User user);
+    List<User> listarTodos ();
     User register (User user);
     //UserDTO login (UserDTO userDTO);
 }

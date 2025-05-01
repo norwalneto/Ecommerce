@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     //}
 
     @Override
-    public List<User> listarTodos(User user) {
+    public List<User> listarTodos() {
         return userRepository.findAll();
     }
 
