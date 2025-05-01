@@ -1,17 +1,16 @@
 {
-    "name": "Spring Boot Development Environment",
-    "dockerFile": "Dockerfile",
-    "appPort": [
-        8080
-    ],
-    "settings": {
-        "java.home": "/usr/lib/jvm/java-17-openjdk-amd64"
-    },
-    "extensions": [
-        "vscjava.vscode-spring-boot",
-        "vscjava.vscode-java-pack",
-        "redhat.java",
-        "pivotal.vscode-spring-initializr"
-    ],
-    "postCreateCommand": "mvn clean install"
+  "name": "springboot-mysql-dev",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspace",             
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash"
+  },
+  "extensions": [
+    "vscjava.vscode-java-pack",
+    "pivotal.vscode-spring-boot",
+    "ms-azuretools.vscode-docker"
+  ],
+  "postCreateCommand": "chmod +x mvnw || true",
+  "remoteUser": "vscode"
 }
