@@ -1,16 +1,16 @@
 {
-  "name": "springboot-mysql-dev",
-  "dockerComposeFile": ["../docker-compose.yml"],
-  "service": "app",
-  "workspaceFolder": "/workspace",             
+  "name": "springboot-mysql-dev",             // Nome exibido no Codespaces
+  "dockerComposeFile": ["../docker-compose.yml"], // Aponta para o arquivo Docker Compose na raiz
+  "service": "app",                            // Serviço principal definido no compose
+  "workspaceFolder": "/workspaces/Ecommerce", // Pasta onde o repo é montado dentro do container
   "settings": {
-    "terminal.integrated.defaultProfile.linux": "bash"
+    "terminal.integrated.defaultProfile.linux": "bash" // Shell padrão
   },
-  "extensions": [
+  "extensions": [                                // Extensões VS Code instaladas automaticamente
     "vscjava.vscode-java-pack",
     "pivotal.vscode-spring-boot",
     "ms-azuretools.vscode-docker"
   ],
-  "postCreateCommand": "chmod +x mvnw || true",
-  "remoteUser": "vscode"
+  "postCreateCommand": "chmod +x mvnw || true",// Dá permissão de execução ao Maven Wrapper
+  "remoteUser": "vscode"                        // Usuário não-root para a sessão VS Code
 }
