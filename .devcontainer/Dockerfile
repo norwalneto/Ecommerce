@@ -6,8 +6,7 @@ RUN apt-get update \
  && apt-get install -y curl unzip zip gnupg2 maven \
  && apt-get clean
 
-# 3) Cria o usuário vscode e muda para ele
-RUN useradd -ms /bin/bash vscode
+# 3) Cria o usuário vscode e muda para eles
 USER vscode
 WORKDIR /home/vscode
 
