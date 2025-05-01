@@ -20,7 +20,7 @@ services:
       dockerfile: .devcontainer/Dockerfile
     container_name: springboot-app
     volumes:
-      - .:/workspace:cached
+      - .:/workspace/Ecommerce:cached
     depends_on:
       - mysql
     command: sleep infinity
