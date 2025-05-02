@@ -30,6 +30,6 @@ services:
       DB_DATABASE: railway
       DB_USER: root
       DB_PASSWORD: ffAABKTqwguSLbLtsSmdMbVvKxVuusWS
-
+      DB_URL: mysql://root:ffAABKTqwguSLbLtsSmdMbVvKxVuusWS@switchback.proxy.rlwy.net:46697/railway
 volumes:
   mysql_data:
