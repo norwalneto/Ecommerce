@@ -1,7 +1,4 @@
-# Dockerfile
-# ----------
-
-# Etapa de build com Maven e Java 17
+# Etapa de build
 FROM maven:3.9.3-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
@@ -12,14 +9,12 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17.0.12
 WORKDIR /app
 
-# Copia o fat-jar gerado
+# Copia o JAR mantendo o nome original
 COPY --from=build /app/target/*.jar app.jar
 
-# Expõe a porta padrão
-EXPOSE 8080
-
-# Por segurança, garanta que o profile prod seja usado
+# Configurações recomendadas para o Railway
+ENV JAVA_OPTS="-Xmx512m -Xms256m"
 ENV SPRING_PROFILES_ACTIVE=prod
 
-# Lança o app; as variáveis (MYSQLHOST, etc) são injetadas automaticamente pelo Railway
-ENTRYPOINT ["java -jar app.jar"]
+# O Railway injeta a porta via variável PORT
+CMD ["sh", "-c", "java ${JAVA_OPTS} -jar app.jar --server.port=${PORT}"]
