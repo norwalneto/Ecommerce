@@ -21,10 +21,10 @@ import io.swagger.v3.oas.models.tags.Tag;
 @Configuration
 public class SwaggerConfig {
 
-    private final OpenApiServerProperties openApiServerProperties;
+    private final OpenApiServerProperties serverProperties;
 
-    public SwaggerConfig(OpenApiServerProperties openApiServerProperties) {
-        this.openApiServerProperties = openApiServerProperties;
+    public SwaggerConfig(OpenApiServerProperties serverProperties) {
+        this.serverProperties = serverProperties;
     }
 
     @Value("${info.app.name}")
@@ -50,30 +50,30 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        SecurityScheme bearerScheme = new SecurityScheme()
-            .type(SecurityScheme.Type.HTTP)
-            .scheme("bearer")
-            .bearerFormat("JWT")
-            .description("Use o header Authorization: Bearer <token>");
-
-            List<Server> servers = Optional.ofNullable(openApiServerProperties.getServers())
-            .orElse(List.of())
-            .stream()
-            .map(s -> new Server().url(s.getUrl()).description(s.getDescription()))
-            .collect(Collectors.toList());
+        List<Server> servers = Optional.ofNullable(serverProperties.getServers())
+                .orElse(List.of())
+                .stream()
+                .map(s -> new Server().url(s.getUrl()).description(s.getDescription()))
+                .collect(Collectors.toList());
 
         return new OpenAPI()
-            .info(new Info()
-                .title(appName)
-                .version(appVersion)
-                .description(appDescription)
-                .contact(new Contact().name(contactName).email(contactEmail))
-                .license(new License().name(licenseName).url(licenseUrl))
-            )
-            .servers(servers)
-            .components(new Components().addSecuritySchemes("bearerAuth", bearerScheme))
-            .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
-            .addTagsItem(new Tag().name("Usuários").description("Gerenciamento de usuários"));
+                .info(new Info()
+                        .title(appName)
+                        .version(appVersion)
+                        .description(appDescription)
+                        .contact(new Contact().name(contactName).email(contactEmail))
+                        .license(new License().name(licenseName).url(licenseUrl))
+                )
+                .servers(servers)
+                .components(new Components().addSecuritySchemes("bearerAuth",
+                        new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")
+                                .description("Header: Authorization: Bearer <token>")
+                ))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .addTagsItem(new Tag().name("Usuários").description("Gerenciamento de usuários"));
     }
 
 }
