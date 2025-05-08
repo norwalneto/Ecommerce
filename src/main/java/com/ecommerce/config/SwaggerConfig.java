@@ -1,6 +1,7 @@
 package com.ecommerce.config;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -55,7 +56,9 @@ public class SwaggerConfig {
             .bearerFormat("JWT")
             .description("Use o header Authorization: Bearer <token>");
 
-        List<Server> servers = openApiServerProperties.getServers().stream()
+            List<Server> servers = Optional.ofNullable(openApiServerProperties.getServers())
+            .orElse(List.of())
+            .stream()
             .map(s -> new Server().url(s.getUrl()).description(s.getDescription()))
             .collect(Collectors.toList());
 

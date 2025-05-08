@@ -3,9 +3,7 @@ package com.ecommerce.config;
 import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
-@Component
 @ConfigurationProperties(prefix = "openapi.servers")
 public class OpenApiServerProperties {
 
