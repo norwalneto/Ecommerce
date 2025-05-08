@@ -1,6 +1,7 @@
 package com.ecommerce.config;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,13 @@ import io.swagger.v3.oas.models.tags.Tag;
 
 @Configuration
 public class SwaggerConfig {
+
+    private final OpenApiServerProperties openApiServerProperties;
+
+    public SwaggerConfig(OpenApiServerProperties openApiServerProperties) {
+        this.openApiServerProperties = openApiServerProperties;
+    }
+
     @Value("${info.app.name}")
     private String appName;
 
@@ -39,32 +47,17 @@ public class SwaggerConfig {
     @Value("${info.license.url}")
     private String licenseUrl;
 
-    @Value("${openapi.servers[0].url}")
-    private String devServerUrl;
-
-    @Value("${openapi.servers[0].description}")
-    private String devServerDesc;
-
-    @Value("${openapi.servers[1].url}")
-    private String prodServerUrl;
-
-    @Value("${openapi.servers[1].description}")
-    private String prodServerDesc;
-
     @Bean
     public OpenAPI customOpenAPI() {
-        // Esquema de segurança JWT
         SecurityScheme bearerScheme = new SecurityScheme()
             .type(SecurityScheme.Type.HTTP)
             .scheme("bearer")
             .bearerFormat("JWT")
             .description("Use o header Authorization: Bearer <token>");
 
-        // Lista de servidores (Dev e Prod)
-        List<Server> servers = List.of(
-            new Server().url(devServerUrl).description(devServerDesc),
-            new Server().url(prodServerUrl).description(prodServerDesc)
-        );
+        List<Server> servers = openApiServerProperties.getServers().stream()
+            .map(s -> new Server().url(s.getUrl()).description(s.getDescription()))
+            .collect(Collectors.toList());
 
         return new OpenAPI()
             .info(new Info()
@@ -77,7 +70,6 @@ public class SwaggerConfig {
             .servers(servers)
             .components(new Components().addSecuritySchemes("bearerAuth", bearerScheme))
             .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
-            // Tags globais
             .addTagsItem(new Tag().name("Usuários").description("Gerenciamento de usuários"));
     }
 
