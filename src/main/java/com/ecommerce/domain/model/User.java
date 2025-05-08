@@ -2,12 +2,11 @@ package com.ecommerce.domain.model;
 
 import java.util.UUID;
 
-import org.hibernate.annotations.GeneratorType;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -27,7 +26,7 @@ public class User {
 
     public User(UUID id, String username, String email, String password) {
         this.id = id;
-        Username = username;
+        this.Username = username;
         this.email = email;
         this.password = password;
     }
